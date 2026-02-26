@@ -1,1 +1,1 @@
-# Linux-Hardening-in-MS-Azure
+# AtlasPay Linux Hardening Lab

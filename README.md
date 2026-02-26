@@ -37,3 +37,21 @@ This lab is intentionally written in clear, business‑focused language while st
 - The operational impact
 
 This structure mirrors real‑world security hardening documentation used in regulated environments where clarity, traceability, and control justification are essential.
+
+**Process (Start to Finish)**
+
+The project began by deploying a Linux VM in Azure and establishing secure SSH access. Once connected, the system was updated and hardened through a series of configuration steps focused on identity, access, authentication, boundary protection, and governance.
+
+Each step was executed manually to simulate real‑world system administration and control validation. Screenshots were also captured throughout the process to provide evidence of implementation and to support audit readiness.
+
+**1. Environment Setup**
+A new Ubuntu Server 22.04 LTS VM was deployed in Azure under the AtlasPay lab resource group. SSH access was configured using secure credentials, and the VM was validated as reachable.
+[Insert Screenshot: VM Overview]
+
+**2. System Updates & Patch Management (SI‑2)**
+The system was fully updated to ensure all packages and libraries were current.
+
+Commands: sudo apt update && sudo apt upgrade -y
+[Insert Screenshot: System Update Output]
+
+This step reduces exposure to known vulnerabilities and establishes a secure baseline for the rest of the project.

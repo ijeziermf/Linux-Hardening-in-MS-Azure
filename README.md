@@ -1,4 +1,10 @@
 # AtlasPay Linux Hardening Lab
+
+
+**Video Demonstration**
+
+(Soon: Video walkthrough of the full hardening process)
+
 **Overview**
 
 This project documents the complete hardening of an Ubuntu Linux virtual machine deployed in Microsoft Azure for the simulated FinTech payment processor AtlasPay. The objective was to strengthen the security posture of a cloud‑hosted Linux system by implementing foundational controls aligned with NIST SP 800‑53 Rev. 5.
@@ -60,6 +66,16 @@ Commands:
 
 [Insert Screenshot: System Update Output]
 
+Field	Details
+Control ID	SI‑2
+Control Name	Flaw Remediation
+Control Objective	Ensure the system is updated with the latest security patches to reduce exposure to known vulnerabilities.
+Implementation Details	Executed sudo apt update && sudo apt upgrade -y to apply all available security and package updates. Restarted services as prompted.
+Risk Addressed	Outdated packages, unpatched vulnerabilities, exposure to known exploits.
+Evidence	[Insert Screenshot: System Update Output]
+Residual Risk	Low — updates applied, but ongoing patching is required as part of continuous operations.
+Notes for Auditors	System was fully patched at the time of configuration. Future updates depend on operational maintenance cadence.
+
 This step reduces exposure to known vulnerabilities and establishes a secure baseline for the rest of the project.
 
 **3. User & Group Management (AC‑2)**
@@ -102,6 +118,80 @@ Updated /etc/ssh/sshd_config:
 SSH was restarted and validated.
 
 [Insert Screenshot: sshd_config Edits]
+
 [Insert Screenshot: systemctl status ssh]
 
 This reduces attack surface and strengthens remote access security.
+
+**6. Password Policy Enforcement (IA‑5)**
+
+Password aging and warning policies were configured against the defaults to enforce stronger authentication hygiene.
+
+Updated /etc/login.defs:
+
+- PASS_MAX_DAYS   90
+- PASS_MIN_DAYS   1
+- PASS_WARN_AGE   14
+
+[Insert Screenshot: login.defs Edits]
+
+This aligns with organizational authentication requirements and reduces credential‑related risk.
+
+**7. Firewall Configuration (SC‑7)**
+
+UFW was enabled to restrict inbound traffic to SSH only.
+
+Commands:
+
+- sudo ufw allow OpenSSH
+- sudo ufw enable
+- sudo ufw status verbose
+
+[Insert Screenshot: UFW Status]
+
+This established host‑level boundary protection while reducing exposure to unauthorized access attempts.
+
+**8. Audit Logging (AU‑2, AU‑6)**
+
+Auditd was configured to monitor changes to /etc/passwd, which is a critical system file in the environment.
+
+Commands:
+
+- sudo apt install auditd audispd-plugins -y
+- sudo systemctl enable auditd
+- sudo systemctl start auditd
+- sudo auditctl -w /etc/passwd -p wa -k passwd_changes
+- sudo passwd alice
+- sudo ausearch -k passwd_changes
+
+[Insert Screenshot: ausearch Output]
+
+This provides traceability and supports incident investigation and compliance reporting.
+
+**Key Takeaways & Discoveries**
+
+- Hardening is most effective when tied to control objectives, not just loose commands.
+- SSH hardening immediately reduced exposure to automated root login attempts.
+- Least‑privilege enforcement requires both group management and sudo configuration.
+- Audit logging provides visibility into privileged operations that often go unmonitored.
+- Host‑based firewalls remain a critical layer even in cloud environments.
+
+**Value to Security & GRC**
+
+This project demonstrates how technical hardening directly supports:
+
+- Regulatory expectations
+- Security governance
+- Operational resilience
+- Audit readiness
+- Cloud security best practices
+
+It bridges the gap between hands‑on system administration and the control‑driven mindset required in modern governance and security roles.
+
+**Growth & Next Improvements**
+
+- Future enhancements may include:
+- Automating hardening steps using Ansible or cloud‑init
+- Implementing CIS Benchmark controls
+- Expanding audit rules to cover additional privileged files
+- Integrating logs with Azure Monitor or a SIEM

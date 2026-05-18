@@ -1,6 +1,6 @@
-# AtlasPay Linux Hardening — Azure VM Security Baseline
+# AtlasPay Linux Hardening, Azure VM Security Baseline
 
-> **NIST SP 800-53 Rev. 5 aligned Linux hardening for FinTech — SSH security, least privilege, audit logging, firewall configuration.**
+> **NIST SP 800-53 Rev. 5 aligned Linux hardening for FinTech, SSH security, least privilege, audit logging, firewall configuration.**
 
 ---
 
@@ -67,7 +67,7 @@ sudo apt update && sudo apt upgrade -y
 | **Objective** | Reduce exposure to known vulnerabilities |
 | **Implementation** | Full system patch application |
 | **Evidence** | Update output screenshot |
-| **Residual Risk** | Low — ongoing patching required |
+| **Residual Risk** | Low, ongoing patching required |
 
 **Screenshot:** System Update Output
 
@@ -90,7 +90,7 @@ id alice
 | **Objective** | Role-based account creation |
 | **Implementation** | Finance group + user alice |
 | **Evidence** | `id alice` output |
-| **Residual Risk** | Low — proper group membership |
+| **Residual Risk** | Low, proper group membership |
 
 **Screenshot:** User Creation Output
 
@@ -110,7 +110,7 @@ id alice
 | **Objective** | Minimum necessary privileges |
 | **Implementation** | Finance group restricted to apt only |
 | **Evidence** | Sudoers file screenshot |
-| **Residual Risk** | Medium — package install still allowed |
+| **Residual Risk** | Medium, package install still allowed |
 
 **Screenshot:** Sudoers Configuration
 
@@ -131,7 +131,7 @@ PasswordAuthentication yes
 | **Objective** | Secure remote access, individual accountability |
 | **Implementation** | Root login disabled, password auth controlled |
 | **Evidence** | sshd_config + systemctl status |
-| **Residual Risk** | Medium — MFA/key-based recommended |
+| **Residual Risk** | Medium, MFA/key-based recommended |
 
 **Screenshots:** SSH Configuration, Service Status
 
@@ -153,7 +153,7 @@ PASS_WARN_AGE   14
 | **Objective** | Password aging and rotation |
 | **Implementation** | 90-day max, 1-day min, 14-day warning |
 | **Evidence** | login.defs screenshot |
-| **Residual Risk** | Medium — complexity/MFA not enforced |
+| **Residual Risk** | Medium, complexity/MFA not enforced |
 
 **Screenshot:** Password Policy Configuration
 
@@ -174,7 +174,7 @@ sudo ufw status verbose
 | **Objective** | Restrict inbound traffic |
 | **Implementation** | SSH only, all else blocked |
 | **Evidence** | UFW status output |
-| **Residual Risk** | Low — host firewall active |
+| **Residual Risk** | Low, host firewall active |
 
 **Screenshot:** UFW Status
 
@@ -198,7 +198,7 @@ sudo ausearch -k passwd_changes
 | **Objective** | Traceability for privileged changes |
 | **Implementation** | auditd monitoring /etc/passwd |
 | **Evidence** | ausearch output |
-| **Residual Risk** | Medium — manual review, automated monitoring recommended |
+| **Residual Risk** | Medium, manual review, automated monitoring recommended |
 
 **Screenshot:** Audit Log Output
 
@@ -206,11 +206,11 @@ sudo ausearch -k passwd_changes
 
 ## Key Takeaways
 
-1. **Hardening = Control Objectives, Not Just Commands** — Each step tied to NIST control
-2. **SSH Hardening = Immediate Risk Reduction** — Root login disablement blocks automated attacks
-3. **Least Privilege = Group Management + Sudo** — Both required for effective enforcement
-4. **Audit Logging = Visibility into Privileged Ops** — Often overlooked but critical for forensics
-5. **Host Firewalls = Critical Even in Cloud** — Defense-in-depth at multiple layers
+1. **Hardening = Control Objectives, Not Just Commands**, Each step tied to NIST control
+2. **SSH Hardening = Immediate Risk Reduction**, Root login disablement blocks automated attacks
+3. **Least Privilege = Group Management + Sudo**, Both required for effective enforcement
+4. **Audit Logging = Visibility into Privileged Ops**, Often overlooked but critical for forensics
+5. **Host Firewalls = Critical Even in Cloud**, Defense-in-depth at multiple layers
 
 ---
 
